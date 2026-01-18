@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Document Highlighter</title>
+    <style>
+      body { font-family: Arial, sans-serif; max-width: 900px; margin: 40px auto; }
+      input[type="text"] { width: 100%; padding: 10px; margin-top: 8px; }
+      input[type="file"] { margin-top: 8px; }
+      button { padding: 10px 14px; margin-top: 12px; }
+    </style>
+  </head>
+  <body>
+    <h1>Document Highlighter</h1>
+    <p>Upload a PDF, DOCX, or TXT, then enter a word or phrase to highlight.</p>
+
+    <form action="/upload" method="post" enctype="multipart/form-data">
+      <label>Search query</label>
+      <input type="text" name="query" placeholder="e.g., Berkeley" />
+
+      <label>Choose a file</label>
+      <input type="file" name="file" />
+
+      <button type="submit">Upload and Search</button>
+    </form>
+  </body>
+</html>

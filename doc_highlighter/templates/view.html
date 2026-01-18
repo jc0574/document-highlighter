@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Results</title>
+    <style>
+      body { font-family: Arial, sans-serif; max-width: 1000px; margin: 20px auto; }
+      .topbar { display: flex; gap: 10px; align-items: center; position: sticky; top: 0; background: white; padding: 10px 0; }
+      button { padding: 8px 12px; }
+      mark.hit { background: yellow; padding: 0 2px; }
+      .page { border: 1px solid #ddd; border-radius: 8px; padding: 14px; margin: 16px 0; white-space: pre-wrap; }
+      .page-title { font-weight: bold; margin-bottom: 8px; }
+      .counter { color: #555; }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <a href="/">Upload another</a>
+      <div class="counter" id="counter"></div>
+      <button id="prev">Previous</button>
+      <button id="next">Next</button>
+    </div>
+
+    <p>Query: <b>{{ query }}</b></p>
+
+    {% for p in pages %}
+      <div class="page">
+        <div class="page-title">Section {{ p.page_num }}</div>
+        <div class="content">{{ p.html | safe }}</div>
+      </div>
+    {% endfor %}
+
+    <script>
+      const hits = Array.from(document.querySelectorAll("mark.hit"));
+      let i = 0;
+
+      function updateCounter() {
+        const counter = document.getElementById("counter");
+        if (hits.length === 0) {
+          counter.textContent = "No matches";
+        } else {
+          counter.textContent = (i + 1) + " of " + hits.length;
+        }
+      }
+
+      function scrollToHit() {
+        if (hits.length === 0) return;
+        hits[i].scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
+      document.getElementById("next").addEventListener("click", () => {
+        if (hits.length === 0) return;
+        i = (i + 1) % hits.length;
+        updateCounter();
+        scrollToHit();
+      });
+
+      document.getElementById("prev").addEventListener("click", () => {
+        if (hits.length === 0) return;
+        i = (i - 1 + hits.length) % hits.length;
+        updateCounter();
+        scrollToHit();
+      });
+
+      updateCounter();
+      scrollToHit();
+    </script>
+  </body>
+</html>
